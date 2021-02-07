@@ -1,0 +1,35 @@
+version: "3"
+
+services:
+  grafana:
+    container_name: grafana
+    restart: unless-stopped
+    image: grafana/grafana:master
+    ports:
+      - 9000:3000
+    env_file:
+      - 'env.grafana'
+    volumes:
+      - grafana-data:/var/lib/grafana
+  postgres:
+    restart: unless-stopped
+    image: postgres:10-alpine
+    restart: always
+    container_name: postgres
+    env_file:
+      - 'env.postgres'
+    volumes:
+      - db-data:/var/lib/postgresql/data
+      - ./tempratures.csv:/var/lib/postgresql/tempratures.csv
+      - ./update_temp_table.sql:/var/lib/postgresql/update_temp_table.sql
+    ports:
+      - 5432:5432
+
+volumes:
+  db-data:
+    driver: local
+    driver_opts:
+      type: none
+      o: bind
+      device: "${PWD}/volumes/db-data"
+  grafana-data:

@@ -1,0 +1,26 @@
+from datetime import datetime
+from sense_hat import SenseHat
+import psutil
+
+sense = SenseHat()
+
+# epoch, temp, temp_hum, temp_pres, pressure, humidity, temp_calibrated, cpu_tmp
+epoch = int(datetime.now().timestamp() * 1000)
+temp = sense.get_temperature()
+temp_hum = sense.get_temperature_from_humidity()
+temp_pres = sense.get_temperature_from_pressure()
+pressure = sense.get_pressure()
+humidity = sense.get_humidity()
+temp_calibrated = ''
+cpu_tmp = psutil.sensors_temperatures()['cpu-thermal'][0].current
+
+def zero_to_empty_string(value):
+    return value if value != 0 else ''
+
+temp = zero_to_empty_string(temp)
+temp_hum = zero_to_empty_string(temp_hum)
+temp_pres = zero_to_empty_string(temp_pres)
+pressure = zero_to_empty_string(pressure)
+humidity = zero_to_empty_string(humidity)
+
+print(f'{epoch},{temp},{temp_hum},{temp_pres},{pressure},{humidity},{temp_calibrated},{cpu_tmp}')
