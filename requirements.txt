@@ -1,0 +1,2 @@
+sense-hat==2.2.0
+psutil==5.8.0
