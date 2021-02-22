@@ -20,8 +20,6 @@ for key in psutil_temp.keys():
     if key.startswith('cpu') and key.endswith('thermal'):
         cpu_tmp = psutil.sensors_temperatures()[key][0].current
 
-cpu_tmp = '41.16'
-
 def zero_to_empty_string(value):
     return value if value != 0 else ''
 
